@@ -1,7 +1,83 @@
+import { useState, useEffect } from 'react'
 function Formulario(){
 
-    const validarForm = () => {
+    const regexPlaca = /^[A-Z]{3}-?\d{4}$|^[A-Z]{3}\d[A-Z]\d{2}$/i;
+    const regexNome = /^[a-záàâãéèêíïóôõöúçñ\s]{4,40}$/i;
+    const regexAptoNum = /^\d{1,4}$/;
+    const regexAptoBloco = /^[a-z0-9]{1,10}$/i;
+    const regexModelo = /^[a-z0-9\s\-]{2,40}$/i;
+    const regexCor = /^[a-záàâãéèêíïóôõöúçñ\s]{3,20}$/i;
 
+    const [dados, setDados] = useState({
+        placa: "",
+        nome: "",
+        aptoNum: "",
+        aptoBloco: "",
+        modelo: "",
+        cor: "",
+        vagaNum: "00"
+    });
+
+    const [dadosSalvos, setDadosSalvos] = useState([]);
+
+    useEffect(() => {
+        const pessoas = JSON.parse(localStorage.getItem("pessoas")) || [];
+        setDadosSalvos(pessoas);
+    }, []);
+
+    const alterarDado = (e) => {
+        setDados({
+            ...dados,
+            [e.target.name]: e.target.value
+        });
+    }
+
+    function imprimirDado(d, c){
+        console.log("Armazenado o dado " + d + " no campo " + c + ".");
+    }
+
+    const validarForm = (e, pos) => {
+        e.preventDefault();
+        if(!regexPlaca.test(dados.placa.trim())){
+            alert("Erro! Preencha corretamente o campo Placa do Veículo.");
+            return;
+        }
+        if(!regexNome.test(dados.nome.trim())){
+            alert("Erro! Preencha corretamente o campo Nome do Proprietário.");
+            return;
+        }
+        if(!regexAptoNum.test(dados.aptoNum.trim())){
+            alert("Erro! Preencha corretamente o campo Número do Apartamento.");
+            return;
+        }
+        if(!regexAptoBloco.test(dados.aptoBloco.trim())){
+            alert("Erro! Preencha corretamente o campo Bloco do Apartamento.");
+            return;
+        }
+        if(!regexModelo.test(dados.modelo.trim())){
+            alert("Erro! Preencha corretamente o campo Modelo do Veículo.");
+            return;
+        }
+        if(!regexCor.test(dados.cor.trim())){
+            alert("Erro! Preencha corretamente o campo Cor do Veículo.");
+            return;
+        }
+        if(dados.vagaNum.trim() === "00"){
+            alert("Erro! Escolha o Número da Vaga de Estacionamento.");
+            return;
+        }
+
+        const listaPessoas = [...dadosSalvos, dados];
+        localStorage.setItem("pessoas", JSON.stringify(listaPessoas));
+        setDadosSalvos(listaPessoas);
+
+        imprimirDado(dados.placa.trim(), "Placa do Veículo");
+        imprimirDado(dados.nome.trim(), "Nome do Proprietário");
+        imprimirDado(dados.aptoNum.trim(), "Número do Apartamento");
+        imprimirDado(dados.aptoBloco.trim(), "Bloco do Apartamento");
+        imprimirDado(dados.modelo.trim(), "Modelo do Veículo");
+        imprimirDado(dados.cor.trim(), "Cor do Veículo");
+        imprimirDado(dados.vagaNum.trim(), "Número da Vaga de Estacionamento");
     }
 
     return(
@@ -9,32 +85,32 @@ function Formulario(){
             <h1>Reserve sua Vaga</h1>
             <legend>Preencha os Dados a seguir para reservar uma vaga:</legend>
             <div className="form-group">
-                <label htmlFor="placa">Placa do veículo:</label>
-                <input type="text" id="placa" required></input>
+                <label htmlFor="idPlaca">Placa do veículo:</label>
+                <input type="text" name="placa" id="idPlaca" value={dados.placa} onChange={alterarDado} required></input>
             </div>
             <div className="form-group">
-                <label htmlFor="nome">Nome do Proprietário:</label>
-                <input type="text" id="nome" maxLength="30" required></input>
+                <label htmlFor="idNome">Nome do Proprietário:</label>
+                <input type="text" name="nome" id="idNome" value={dados.nome} onChange={alterarDado} maxLength="30" required></input>
             </div>
             <div className="form-group">
-                <label htmlFor="apto_num">Número do Apartamento:</label>
-                <input type="text" id="aptoNum" required></input>
+                <label htmlFor="idAptoNum">Número do Apartamento:</label>
+                <input type="text" name="aptoNum" id="idAptoNum" value={dados.numApto} onChange={alterarDado} required></input>
             </div>
             <div className="form-group">
-                <label htmlFor="apto_bloco">Bloco do apartamento:</label>
-                <input type="text" id="aptoBloco" required></input>
+                <label htmlFor="idAptoBloco">Bloco do apartamento:</label>
+                <input type="text" name="aptoBloco" id="idAptoBloco" value={dados.blocoApto} onChange={alterarDado} required></input>
             </div>
             <div className="form-group">
-                <label htmlFor="modelo">Modelo do Veículo:</label>
-                <input type="text" id="modelo" required></input>
+                <label htmlFor="idModelo">Modelo do Veículo:</label>
+                <input type="text" name="modelo" id="idModelo" value={dados.modelo} onChange={alterarDado} required></input>
             </div>
             <div className="form-group">
-                <label htmlFor="cor">Cor do Veículo:</label>
-                <input type="text" id="cor" required></input>
+                <label htmlFor="idCor">Cor do Veículo:</label>
+                <input type="text" name="cor" id="idCor" value={dados.cor} onChange={alterarDado} required></input>
             </div>
             <div className="form-group">
-                <label htmlFor="vaga">Número da Vaga de Estacionamento:</label>
-                <select id="vaga" required>
+                <label htmlFor="idVagaNum">Número da Vaga de Estacionamento:</label>
+                <select name="vagaNum" id="idVagaNum" value={dados.vagaNum} onChange={alterarDado} required>
                     <option value="00">Selecione uma Vaga</option>
                     <option value="01">Vaga 01</option>
                     <option value="02">Vaga 02</option>
@@ -47,7 +123,6 @@ function Formulario(){
                     <option value="09">Vaga 09</option>
                     <option value="10">Vaga 10</option>
                 </select>
-                
             </div>
             <div className="button">
                 <button type="submit" id="btnSubmit">Salvar</button>

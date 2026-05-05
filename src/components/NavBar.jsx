@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
-import Vagas from "../pages/vagas";
-import Cadastro from "../pages/cadastro";
+import Vagas from "../pages/Vagas";
+import Cadastro from "../pages/Cadastro";
 
 function NavBar(){
     
