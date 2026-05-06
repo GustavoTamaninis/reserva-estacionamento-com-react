@@ -1,6 +1,28 @@
 import { useState, useEffect } from 'react'
 function Formulario(){
 
+    const [vagas, setVagas] = useState([
+        {"vaga": "01", "disponibilidade": "Ocupada"},
+        {"vaga": "02", "disponibilidade": "Disponível"},
+        {"vaga": "03", "disponibilidade": "Disponível"},
+        {"vaga": "04", "disponibilidade": "Disponível"},
+        {"vaga": "05", "disponibilidade": "Disponível"},
+        {"vaga": "06", "disponibilidade": "Disponível"},
+        {"vaga": "07", "disponibilidade": "Disponível"},
+        {"vaga": "08", "disponibilidade": "Disponível"},
+        {"vaga": "09", "disponibilidade": "Disponível"},
+        {"vaga": "10", "disponibilidade": "Disponível"}
+    ]);
+
+    useEffect(() => {
+        const vagasArmazenadas = JSON.parse(localStorage.getItem("vagas"));
+        if(Array.isArray(vagasArmazenadas)){
+            setVagas(vagasArmazenadas);
+        }else{
+            localStorage.setItem("vagas", JSON.stringify(vagas));
+        }
+    }, []);
+
     const regexPlaca = /^[A-Z]{3}-?\d{4}$|^[A-Z]{3}\d[A-Z]\d{2}$/i;
     const regexNome = /^[a-záàâãéèêíïóôõöúçñ\s]{4,40}$/i;
     const regexAptoNum = /^\d{1,4}$/;
@@ -62,8 +84,14 @@ function Formulario(){
             alert("Erro! Preencha corretamente o campo Cor do Veículo.");
             return;
         }
-        if(dados.vagaNum.trim() === "00"){
+        if(dados.vagaNum.trim() == "00"){
             alert("Erro! Escolha o Número da Vaga de Estacionamento.");
+            return;
+        }
+
+        const index = parseInt(dados.vagaNum.trim())-1;
+        if(vagas[index].disponibilidade === "Ocupada"){
+            alert("Erro! A vaga " + dados.vagaNum.trim() + " já está ocupada.");
             return;
         }
 
@@ -78,6 +106,12 @@ function Formulario(){
         imprimirDado(dados.modelo.trim(), "Modelo do Veículo");
         imprimirDado(dados.cor.trim(), "Cor do Veículo");
         imprimirDado(dados.vagaNum.trim(), "Número da Vaga de Estacionamento");
+
+        const vagasAtualizadas = vagas.map((vaga, i) =>
+            i === index ? { ...vaga, disponibilidade : "Ocupada"} : vaga
+        );
+        setVagas(vagasAtualizadas)
+        localStorage.setItem("vagas", JSON.stringify(vagasAtualizadas));
     }
 
     return(
@@ -94,11 +128,11 @@ function Formulario(){
             </div>
             <div className="form-group">
                 <label htmlFor="idAptoNum">Número do Apartamento:</label>
-                <input type="text" name="aptoNum" id="idAptoNum" value={dados.numApto} onChange={alterarDado} required></input>
+                <input type="text" name="aptoNum" id="idAptoNum" value={dados.aptoNum} onChange={alterarDado} required></input>
             </div>
             <div className="form-group">
                 <label htmlFor="idAptoBloco">Bloco do apartamento:</label>
-                <input type="text" name="aptoBloco" id="idAptoBloco" value={dados.blocoApto} onChange={alterarDado} required></input>
+                <input type="text" name="aptoBloco" id="idAptoBloco" value={dados.aptoBloco} onChange={alterarDado} required></input>
             </div>
             <div className="form-group">
                 <label htmlFor="idModelo">Modelo do Veículo:</label>
