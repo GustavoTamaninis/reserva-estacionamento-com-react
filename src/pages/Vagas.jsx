@@ -2,7 +2,9 @@ import ListarVagas from "../components/ListaVagas";
 function Vagas(){
 
     return(
-        <ListarVagas />
+        <main>
+            <ListarVagas />
+        </main>
     );
 }
 

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-// import Formulario from "./Formulario";
 function ListarVagas(){
     const [vagas, setVagas] = useState([
         {"vaga": "01", "disponibilidade": "Disponível"},

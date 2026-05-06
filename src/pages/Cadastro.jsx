@@ -2,9 +2,9 @@ import Formulario from "../components/Formulario";
 function Cadastro(){
 
     return(
-        <section>
+        <main>
             <Formulario />
-        </section>
+        </main>
     )
 }
 
