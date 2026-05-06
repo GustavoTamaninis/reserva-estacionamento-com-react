@@ -23,7 +23,7 @@ function ListarVagas(){
     }, []);
 
     return(
-        <section>
+        <section className='lista'>
             <h1>Vagas</h1>
             <table>
                 <thead>
@@ -35,8 +35,8 @@ function ListarVagas(){
                 <tbody>
                     {vagas.map((vaga, index) => (
                         <tr key={index}>
-                            <th>{vaga.vaga}</th>
-                            <th>{vaga.disponibilidade}</th>
+                            <td>{vaga.vaga}</td>
+                            <td>{vaga.disponibilidade}</td>
                         </tr>
                     ))}
                 </tbody>

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 function Formulario(){
 
     const [vagas, setVagas] = useState([
-        {"vaga": "01", "disponibilidade": "Ocupada"},
+        {"vaga": "01", "disponibilidade": "Disponível"},
         {"vaga": "02", "disponibilidade": "Disponível"},
         {"vaga": "03", "disponibilidade": "Disponível"},
         {"vaga": "04", "disponibilidade": "Disponível"},
