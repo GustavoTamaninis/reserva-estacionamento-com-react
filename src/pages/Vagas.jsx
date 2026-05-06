@@ -1,4 +1,4 @@
-import ListarVagas from "../components/ListaVagas";
+import ListarVagas from "../components/ListarVagas";
 function Vagas(){
 
     return(

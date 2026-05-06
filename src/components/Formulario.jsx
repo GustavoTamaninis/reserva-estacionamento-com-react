@@ -59,39 +59,46 @@ function Formulario(){
     }
 
     const validarForm = (e, pos) => {
-        e.preventDefault();
         if(!regexPlaca.test(dados.placa.trim())){
             alert("Erro! Preencha corretamente o campo Placa do Veículo.");
+            e.preventDefault();
             return;
         }
         if(!regexNome.test(dados.nome.trim())){
             alert("Erro! Preencha corretamente o campo Nome do Proprietário.");
+            e.preventDefault();
             return;
         }
         if(!regexAptoNum.test(dados.aptoNum.trim())){
             alert("Erro! Preencha corretamente o campo Número do Apartamento.");
+            e.preventDefault();
             return;
         }
         if(!regexAptoBloco.test(dados.aptoBloco.trim())){
             alert("Erro! Preencha corretamente o campo Bloco do Apartamento.");
+            e.preventDefault();
             return;
         }
         if(!regexModelo.test(dados.modelo.trim())){
             alert("Erro! Preencha corretamente o campo Modelo do Veículo.");
+            e.preventDefault();
             return;
         }
         if(!regexCor.test(dados.cor.trim())){
             alert("Erro! Preencha corretamente o campo Cor do Veículo.");
+            e.preventDefault();
             return;
         }
         if(dados.vagaNum.trim() == "00"){
             alert("Erro! Escolha o Número da Vaga de Estacionamento.");
+            e.preventDefault();
             return;
         }
 
         const index = parseInt(dados.vagaNum.trim())-1;
         if(vagas[index].disponibilidade === "Ocupada"){
             alert("Erro! A vaga " + dados.vagaNum.trim() + " já está ocupada.");
+            e.preventDefault();
             return;
         }
 
@@ -112,11 +119,13 @@ function Formulario(){
         );
         setVagas(vagasAtualizadas)
         localStorage.setItem("vagas", JSON.stringify(vagasAtualizadas));
+
+        alert("Cadastro realizado com sucesso!");
     }
 
     return(
         <section className="cadastro">
-            <form action="index.html" onSubmit={validarForm}>
+            <form action="vagas" onSubmit={validarForm}>
                 <h1>Reserve sua Vaga</h1>
                 <legend>Preencha os Dados a seguir para reservar uma vaga:</legend>
                 <div className="form-group">
